@@ -10,6 +10,11 @@ use Illuminate\Support\Facades\Mail;
 
 class StoryController extends Controller
 {
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function index()
     {
         $stories = Story::latest()->paginate(20);
@@ -17,6 +22,12 @@ class StoryController extends Controller
         return view('dashboard.stories.index', compact('stories'));
     }
 
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
     public function store(Request $request)
     {
         $data = $request->validate([
@@ -34,11 +45,24 @@ class StoryController extends Controller
         return to_route('story.index')->with('success', 'Story created successfully.');
     }
 
+    /**
+     * Display the specified resource.
+     *
+     * @param  Story  $story
+     * @return \Illuminate\Http\Response
+     */
     public function show(Request $request, Story $story)
     {
-        return view('dashboard.story.show', compact('story'));
+        return view('dashboard.stories.show', compact('story'));
     }
 
+    /**
+     * Approve the specified resource.
+     * 
+     * @param  Request  $request
+     * @param  Story  $story
+     * @return \Illuminate\Http\Response
+     */
     public function approve(Request $request, Story $story)
     {
         $story->update(['approved' => true]);
